@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portal de Trámites Académicos</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --orange: #E05A20; --orange-d: #C04A10; --orange-pale: rgba(224,90,32,.08);
+  --cream: #F5F2EC; --cream-d: #EAE5DC;
+  --dark: #1C1C1C; --ink: #1A1814; --muted: #6B6560; --white: #FFFFFF;
+}
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', sans-serif; background: var(--cream); color: var(--ink); min-height: 100vh; }
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 300;
+  background: var(--dark); height: 56px;
+  display: flex; align-items: center;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+.nav-inner {
+  max-width: 1200px; margin: 0 auto; padding: 0 40px;
+  width: 100%; display: flex; align-items: center; justify-content: space-between;
+}
+.nav-logo {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none;
+}
+.nav-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--orange); }
+.nav-name { font-size: 14px; font-weight: 600; color: var(--white); }
+.nav-right { display: flex; align-items: center; gap: 8px; }
+.nav-tag {
+  font-size: 11px; letter-spacing: 1px; text-transform: uppercase;
+  color: rgba(255,255,255,.35); font-weight: 500;
+}
+
+/* ── HERO ── */
+.hero {
+  background: var(--dark);
+  padding: 120px 40px 80px;
+  text-align: center;
+  position: relative; overflow: hidden;
+}
+.hero-rings {
+  position: absolute; inset: 0; pointer-events: none;
+}
+.ring {
+  position: absolute; border-radius: 50%;
+  border: 1px solid rgba(224,90,32,.08);
+}
+.r1 { width: 700px; height: 700px; top: -300px; left: 50%; transform: translateX(-50%); }
+.r2 { width: 500px; height: 500px; top: -200px; left: 50%; transform: translateX(-50%); }
+.r3 { width: 300px; height: 300px; top: -100px; left: 50%; transform: translateX(-50%); }
+
+.hero-inner { position: relative; max-width: 680px; margin: 0 auto; }
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--orange); font-weight: 600; margin-bottom: 24px;
+}
+.hero-eyebrow::before, .hero-eyebrow::after {
+  content: ''; display: block; width: 24px; height: 1px; background: var(--orange); opacity: .5;
+}
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(38px, 5.5vw, 62px);
+  font-weight: 900; line-height: 1.05;
+  color: var(--white); letter-spacing: -.5px;
+  margin-bottom: 20px;
+}
+.hero h1 em { font-style: italic; color: var(--orange); }
+.hero p {
+  font-size: 16px; color: rgba(255,255,255,.5);
+  line-height: 1.8; max-width: 500px; margin: 0 auto 40px;
+}
+
+/* ── SEARCH ── */
+.search-wrap {
+  max-width: 500px; margin: 0 auto 0;
+  position: relative;
+}
+.search-input {
+  width: 100%; padding: 16px 52px 16px 20px;
+  border: 1.5px solid rgba(255,255,255,.12);
+  border-radius: 6px; background: rgba(255,255,255,.07);
+  font-family: 'Inter', sans-serif; font-size: 14px;
+  color: var(--white); transition: all .2s;
+}
+.search-input::placeholder { color: rgba(255,255,255,.3); }
+.search-input:focus { outline: none; border-color: var(--orange); background: rgba(255,255,255,.1); }
+.search-icon {
+  position: absolute; right: 18px; top: 50%; transform: translateY(-50%);
+  color: rgba(255,255,255,.3); pointer-events: none;
+}
+
+/* ── WAVE DIVIDER ── */
+.wave {
+  background: var(--dark);
+  line-height: 0;
+}
+.wave svg { display: block; width: 100%; }
+
+/* ── MAIN CONTENT ── */
+main { max-width: 1200px; margin: 0 auto; padding: 64px 40px 100px; }
+
+/* ── CATEGORY LABEL ── */
+.cat-label {
+  display: flex; align-items: center; gap: 12px;
+  font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--orange); font-weight: 600; margin-bottom: 28px;
+}
+.cat-label::after { content: ''; flex: 1; height: 1px; background: var(--cream-d); }
+
+/* ── GRID ── */
+.tramites-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 3px;
+  background: var(--cream-d);
+  margin-bottom: 3px;
+}
+
+/* ── TRAMITE CARD ── */
+.card {
+  background: var(--white);
+  padding: 36px 32px;
+  display: flex; flex-direction: column;
+  gap: 0;
+  transition: background .2s;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+  overflow: hidden;
+}
+.card:hover { background: var(--cream); }
+.card:hover .card-arrow { transform: translateX(4px); color: var(--orange); }
+.card:hover .card-num { color: rgba(224,90,32,.15); }
+
+.card-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 80px; font-weight: 900; line-height: 1;
+  color: rgba(26,24,20,.04);
+  position: absolute; bottom: -10px; right: 16px;
+  pointer-events: none; transition: color .3s;
+  user-select: none;
+}
+
+.card-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 10px; font-weight: 700; letter-spacing: 1.2px;
+  text-transform: uppercase; padding: 4px 10px; border-radius: 2px;
+  margin-bottom: 20px; width: fit-content;
+}
+.badge-salud    { background: rgba(22,163,74,.1);  color: #15803d; }
+.badge-academico { background: rgba(224,90,32,.1); color: var(--orange-d); }
+.badge-admin    { background: rgba(59,130,246,.1); color: #1d4ed8; }
+.badge-nuevo    { background: var(--orange); color: var(--white); }
+
+.card-icon { font-size: 36px; margin-bottom: 16px; display: block; }
+
+.card h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px; font-weight: 700; color: var(--ink);
+  line-height: 1.2; margin-bottom: 10px;
+}
+
+.card p {
+  font-size: 13.5px; color: var(--muted);
+  line-height: 1.7; margin-bottom: 24px; flex: 1;
+}
+
+.card-meta {
+  display: flex; align-items: center; justify-content: space-between;
+  padding-top: 18px; border-top: 1px solid var(--cream-d);
+}
+
+.card-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.card-tag {
+  font-size: 11px; color: var(--muted); background: var(--cream);
+  padding: 3px 9px; border-radius: 2px; font-weight: 500;
+}
+
+.card-arrow {
+  font-size: 18px; color: var(--cream-d);
+  transition: transform .25s, color .25s; flex-shrink: 0;
+}
+
+/* ── COMING SOON CARD ── */
+.card-soon {
+  background: var(--cream);
+  padding: 36px 32px;
+  display: flex; flex-direction: column;
+  justify-content: center; align-items: center;
+  text-align: center; gap: 10px;
+  border: 2px dashed var(--cream-d);
+  cursor: default;
+  min-height: 220px;
+}
+.card-soon p { font-size: 13px; color: var(--cream-d); font-weight: 600; letter-spacing: .5px; }
+.card-soon span { font-size: 28px; }
+
+/* ── QUICK TIPS ── */
+.tips-section { margin-top: 64px; }
+.tips-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 3px; background: var(--cream-d); }
+.tip-cell {
+  background: var(--dark); padding: 32px 28px;
+  transition: background .2s;
+}
+.tip-cell:hover { background: #222; }
+.tip-icon { font-size: 24px; margin-bottom: 14px; display: block; }
+.tip-cell h4 { font-size: 14px; font-weight: 600; color: var(--white); margin-bottom: 8px; }
+.tip-cell p  { font-size: 13px; color: rgba(255,255,255,.45); line-height: 1.65; }
+
+/* ── NO RESULTS ── */
+.no-results {
+  display: none; grid-column: 1/-1;
+  padding: 60px; text-align: center;
+  background: var(--white);
+}
+.no-results p { font-size: 16px; color: var(--muted); }
+.no-results strong { color: var(--ink); }
+
+/* ── FOOTER ── */
+footer {
+  background: #111; padding: 32px 40px;
+  text-align: center;
+}
+.footer-inner { max-width: 1200px; margin: 0 auto; }
+.footer-nav { display: flex; justify-content: center; gap: 28px; flex-wrap: wrap; margin-bottom: 20px; }
+.footer-nav a { font-size: 12px; color: rgba(255,255,255,.35); text-decoration: none; transition: color .2s; }
+.footer-nav a:hover { color: var(--orange); }
+.footer-copy { font-size: 12px; color: rgba(255,255,255,.2); }
+
+/* ── REVEAL ── */
+.reveal { opacity: 0; transform: translateY(20px); transition: opacity .55s ease, transform .55s ease; }
+.reveal.vis { opacity: 1; transform: none; }
+
+/* ── HIGHLIGHT on search ── */
+.card.hidden { display: none; }
+mark { background: rgba(224,90,32,.2); color: var(--ink); border-radius: 2px; padding: 0 2px; }
+
+/* ── MOBILE ── */
+@media (max-width: 700px) {
+  .nav-tag { display: none; }
+  .nav-inner { padding: 0 20px; }
+  .hero { padding: 100px 24px 60px; }
+  main { padding: 48px 20px 80px; }
+  .tips-grid { grid-template-columns: 1fr; }
+  .tramites-grid { grid-template-columns: 1fr; }
+  footer { padding: 28px 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <div class="nav-dot"></div>
+      <span class="nav-name">Portal de Trámites</span>
+    </a>
+    <div class="nav-right">
+      <span class="nav-tag">Guía para estudiantes</span>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-rings">
+    <div class="ring r1"></div>
+    <div class="ring r2"></div>
+    <div class="ring r3"></div>
+  </div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Trámites académicos</div>
+    <h1>¿Qué trámite<br>necesitas hacer <em>hoy?</em></h1>
+    <p>Encuentra el proceso que necesitas, entiende los pasos y genera tus documentos — todo en un solo lugar.</p>
+    <div class="search-wrap">
+      <input
+        class="search-input"
+        id="search"
+        type="text"
+        placeholder="Busca un trámite: ausencias, médico, justificación…"
+        oninput="filterCards(this.value)"
+        autocomplete="off"
+      >
+      <svg class="search-icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+    </div>
+  </div>
+</div>
+
+<!-- WAVE -->
+<div class="wave">
+  <svg viewBox="0 0 1440 40" preserveAspectRatio="none" height="40">
+    <path d="M0,0 C360,40 1080,40 1440,0 L1440,40 L0,40 Z" fill="#F5F2EC"/>
+  </svg>
+</div>
+
+<!-- MAIN -->
+<main>
+
+  <!-- ACTIVOS -->
+  <div class="cat-label reveal">Trámites disponibles</div>
+
+  <div class="tramites-grid" id="cards-grid">
+
+    <!-- CARD 1: Alto rendimiento -->
+    <a class="card reveal"
+       href="protocolo_info_anahuac.html"
+       data-keywords="alto rendimiento deportivo atletismo artístico académico ausencias faltas justificación competencia olimpiada festival"
+    >
+      <div class="card-num">01</div>
+      <span class="card-badge badge-academico">⭐ Académico · Deportivo · Artístico</span>
+      <span class="card-icon">🏅</span>
+      <h3>Justificación de ausencias — Alto Rendimiento</h3>
+      <p>¿Vas a representar a tu escuela o a México en una competencia, festival u olimpiada? Aquí está el protocolo para justificar tus faltas sin afectar tu trayectoria.</p>
+      <div class="card-meta">
+        <div class="card-tags">
+          <span class="card-tag">7 días anticipación</span>
+          <span class="card-tag">4 pasos</span>
+          <span class="card-tag">Genera documentos</span>
+        </div>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+    <!-- CARD 2: Salud -->
+    <a class="card reveal"
+       href="protocolo_salud_anahuac.html"
+       data-keywords="salud médico enfermedad reposo psicólogo justificación inasistencia falta comprobante doctor"
+    >
+      <div class="card-num">02</div>
+      <span class="card-badge badge-salud">🏥 Salud Integral</span>
+      <span class="card-icon">🩺</span>
+      <h3>Justificación de inasistencias — Motivos de salud</h3>
+      <p>¿Faltaste por enfermedad o indicación médica? Conoce los plazos, qué debe incluir tu comprobante y genera el correo de notificación en segundos.</p>
+      <div class="card-meta">
+        <div class="card-tags">
+          <span class="card-tag">3 días para notificar</span>
+          <span class="card-tag">10 días comprobante</span>
+          <span class="card-tag">Genera correo</span>
+        </div>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+    <!-- NO RESULTS -->
+    <div class="no-results" id="no-results">
+      <p>No encontramos un trámite para "<strong id="no-results-query"></strong>".<br>Prueba con otras palabras o navega las tarjetas.</p>
+    </div>
+
+  </div>
+
+  <!-- PRÓXIMAMENTE -->
+  <div class="cat-label reveal" style="margin-top:64px;">Próximamente</div>
+  <div class="tramites-grid">
+    <div class="card-soon reveal">
+      <span>＋</span>
+      <p>Próximo trámite</p>
+    </div>
+    <div class="card-soon reveal">
+      <span>＋</span>
+      <p>Próximo trámite</p>
+    </div>
+    <div class="card-soon reveal">
+      <span>＋</span>
+      <p>Próximo trámite</p>
+    </div>
+  </div>
+
+  <!-- TIPS -->
+  <div class="tips-section">
+    <div class="cat-label reveal" style="margin-bottom:28px;">Antes de empezar</div>
+    <div class="tips-grid">
+      <div class="tip-cell reveal">
+        <span class="tip-icon">⏰</span>
+        <h4>Respeta los plazos</h4>
+        <p>Cada trámite tiene ventanas de tiempo específicas. Iniciar tarde puede invalidar tu solicitud, aunque tengas todos los documentos correctos.</p>
+      </div>
+      <div class="tip-cell reveal">
+        <span class="tip-icon">📄</span>
+        <h4>Ten tus documentos listos</h4>
+        <p>Antes de empezar, revisa qué comprobantes necesitas (credencial, carta de convocatoria, informe médico) para no hacer el proceso a medias.</p>
+      </div>
+      <div class="tip-cell reveal">
+        <span class="tip-icon">💾</span>
+        <h4>Guarda siempre una copia</h4>
+        <p>Descarga o guarda todos los documentos que generes. Conserva un juego completo para ti, además de los que entregues a profesores y coordinación.</p>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <nav class="footer-nav">
+      <a href="protocolo_info_anahuac.html">Alto Rendimiento</a>
+      <a href="protocolo_salud_anahuac.html">Motivos de Salud</a>
+    </nav>
+    <p class="footer-copy">Portal de Trámites Académicos · Los documentos generados tienen validez solo con autorización presencial de las áreas correspondientes.</p>
+  </div>
+</footer>
+
+<script>
+// ── SEARCH ──
+function filterCards(q) {
+  const query = q.trim().toLowerCase();
+  const cards  = document.querySelectorAll('.card[data-keywords]');
+  const noRes  = document.getElementById('no-results');
+  let found = 0;
+
+  cards.forEach(card => {
+    const kw = card.dataset.keywords || '';
+    const title = card.querySelector('h3')?.textContent || '';
+    const desc  = card.querySelector('p')?.textContent  || '';
+    const hay   = (kw + ' ' + title + ' ' + desc).toLowerCase();
+
+    if (!query || hay.includes(query)) {
+      card.classList.remove('hidden');
+      found++;
+    } else {
+      card.classList.add('hidden');
+    }
+  });
+
+  if (found === 0 && query) {
+    noRes.style.display = 'block';
+    document.getElementById('no-results-query').textContent = q;
+  } else {
+    noRes.style.display = 'none';
+  }
+}
+
+// ── REVEAL ──
+const obs = new IntersectionObserver(
+  entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); }),
+  { threshold: 0.08 }
+);
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+// Stagger cards
+document.querySelectorAll('.card.reveal').forEach((el, i) => {
+  el.style.transitionDelay = `${i * 0.1}s`;
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Protocolo · Justificación por Motivos de Salud</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --orange:#E05A20; --orange-d:#C04A10; --cream:#F5F2EC; --cream-d:#EAE5DC;
+  --dark:#1C1C1C; --dark-2:#2A2A2A; --ink:#1A1814; --muted:#6B6560; --white:#FFFFFF;
+}
+html { scroll-behavior: smooth; }
+body { font-family:'Inter',sans-serif; background:var(--cream); color:var(--ink); line-height:1.6; }
+
+/* NAV */
+nav { position:fixed; top:0; left:0; right:0; z-index:200; background:var(--dark); height:60px; display:flex; align-items:center; }
+.nav-inner { width:100%; max-width:1200px; margin:0 auto; padding:0 48px; display:flex; align-items:center; justify-content:space-between; }
+.nav-logo { font-family:'Playfair Display',serif; font-size:15px; font-weight:700; color:var(--white); text-decoration:none; display:flex; align-items:center; gap:10px; }
+.nav-dot { width:8px; height:8px; border-radius:50%; background:var(--orange); flex-shrink:0; }
+.nav-links { display:flex; align-items:center; gap:32px; }
+.nav-links a { font-size:12px; letter-spacing:.8px; text-transform:uppercase; color:rgba(255,255,255,.5); text-decoration:none; transition:color .2s; font-weight:500; }
+.nav-links a:hover { color:var(--white); }
+.nav-cta { background:var(--orange)!important; color:var(--white)!important; padding:8px 20px; border-radius:4px; font-size:12px!important; font-weight:600!important; letter-spacing:.5px!important; }
+.nav-cta:hover { background:var(--orange-d)!important; }
+
+/* HERO */
+.hero { background:var(--cream); padding:160px 48px 120px; display:grid; grid-template-columns:1fr 1fr; gap:0; overflow:hidden; }
+.hero-left { max-width:640px; }
+.hero-eyebrow { font-size:11px; letter-spacing:2.5px; text-transform:uppercase; color:var(--orange); font-weight:600; margin-bottom:28px; }
+.hero-title { font-family:'Playfair Display',serif; font-size:clamp(44px,5.5vw,74px); font-weight:900; line-height:1.0; color:var(--ink); margin-bottom:32px; letter-spacing:-1px; }
+.hero-title em { font-style:italic; color:var(--orange); }
+.hero-body { font-size:17px; color:var(--muted); line-height:1.8; max-width:480px; margin-bottom:48px; }
+.hero-action { display:inline-flex; align-items:center; gap:10px; background:var(--orange); color:var(--white); padding:16px 32px; border-radius:4px; font-size:13px; font-weight:600; letter-spacing:.8px; text-transform:uppercase; text-decoration:none; transition:all .2s; cursor:pointer; border:none; }
+.hero-action:hover { background:var(--orange-d); transform:translateY(-2px); }
+.hero-right { display:flex; align-items:center; justify-content:flex-end; padding-left:40px; }
+.hero-stats-block { display:flex; flex-direction:column; gap:0; }
+.hero-stat { padding:28px 40px; border-top:1px solid var(--cream-d); }
+.hero-stat:last-child { border-bottom:1px solid var(--cream-d); }
+.hero-stat-num { font-family:'Playfair Display',serif; font-size:clamp(44px,5vw,64px); font-weight:900; line-height:1; color:var(--ink); display:block; }
+.hero-stat-num span { color:var(--orange); }
+.hero-stat-label { font-size:13px; color:var(--muted); margin-top:4px; letter-spacing:.3px; }
+
+/* ALERT BANNER */
+.alert-banner { background:var(--orange); padding:16px 48px; }
+.alert-inner { max-width:1200px; margin:0 auto; display:flex; align-items:center; gap:16px; }
+.alert-icon { font-size:20px; flex-shrink:0; }
+.alert-text { font-size:13px; color:var(--white); font-weight:500; line-height:1.5; }
+.alert-text strong { font-weight:700; }
+.alert-text a { color:var(--white); font-weight:700; }
+
+/* SECTION */
+.section-eyebrow { font-size:11px; letter-spacing:2.5px; text-transform:uppercase; color:var(--orange); font-weight:600; margin-bottom:20px; display:block; }
+.section-title { font-family:'Playfair Display',serif; font-size:clamp(30px,3.8vw,50px); font-weight:900; line-height:1.08; letter-spacing:-.5px; color:var(--ink); margin-bottom:18px; }
+.section-title em { font-style:italic; color:var(--orange); }
+.section-body { font-size:16px; color:var(--muted); line-height:1.8; }
+
+/* PROCESS — dark */
+.process { background:var(--dark); padding:100px 48px; }
+.process-inner { max-width:1200px; margin:0 auto; }
+.process .section-eyebrow { color:var(--orange); }
+.process .section-title { color:var(--white); }
+.process .section-title em { color:var(--orange); }
+.process .section-body { color:rgba(255,255,255,.5); }
+.process-grid { display:grid; grid-template-columns:1fr 1fr; gap:2px; margin-top:64px; background:rgba(255,255,255,.06); }
+.process-card { background:var(--dark); padding:52px 48px; position:relative; transition:background .25s; }
+.process-card:hover { background:var(--dark-2); }
+.pc-number { font-family:'Playfair Display',serif; font-size:120px; font-weight:900; line-height:1; color:rgba(255,255,255,.04); position:absolute; top:20px; right:32px; pointer-events:none; user-select:none; }
+.pc-step { font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--orange); font-weight:600; margin-bottom:16px; }
+.pc-title { font-family:'Playfair Display',serif; font-size:24px; font-weight:700; color:var(--white); line-height:1.2; margin-bottom:16px; }
+.pc-body { font-size:14px; color:rgba(255,255,255,.55); line-height:1.75; margin-bottom:20px; }
+.pc-list { list-style:none; }
+.pc-list li { font-size:13px; color:rgba(255,255,255,.45); line-height:1.6; padding:6px 0 6px 14px; border-bottom:1px solid rgba(255,255,255,.05); position:relative; }
+.pc-list li::before { content:'—'; color:var(--orange); position:absolute; left:0; font-size:10px; top:9px; }
+.pc-list li:last-child { border-bottom:none; }
+.pc-tag { display:inline-flex; align-items:center; gap:6px; margin-top:18px; padding:6px 14px; border-radius:2px; background:rgba(224,90,32,.15); border:1px solid rgba(224,90,32,.3); font-size:11px; font-weight:600; color:var(--orange); letter-spacing:.5px; }
+
+/* PLAZOS — cream */
+.plazos { background:var(--cream); padding:100px 48px; }
+.plazos-inner { max-width:1200px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:start; }
+.plazo-cards { display:flex; flex-direction:column; gap:2px; background:var(--cream-d); }
+.plazo-card { background:var(--cream); padding:32px 36px; display:grid; grid-template-columns:auto 1fr; gap:24px; align-items:start; transition:background .2s; }
+.plazo-card:hover { background:var(--white); }
+.plazo-num { font-family:'Playfair Display',serif; font-size:52px; font-weight:900; color:var(--orange); line-height:1; }
+.plazo-num span { font-size:18px; font-weight:600; }
+.plazo-content h4 { font-family:'Playfair Display',serif; font-size:18px; font-weight:700; color:var(--ink); margin-bottom:8px; line-height:1.2; }
+.plazo-content p { font-size:13px; color:var(--muted); line-height:1.7; }
+.plazo-content .plazo-note { font-size:12px; color:var(--orange); font-weight:600; margin-top:8px; padding:6px 12px; background:rgba(224,90,32,.08); border-radius:2px; display:inline-block; }
+
+/* COMPROBANTE — white */
+.comprobante { background:var(--white); padding:100px 48px; }
+.comprobante-inner { max-width:1200px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:start; }
+.req-list { display:flex; flex-direction:column; gap:0; margin-top:12px; }
+.req-item { display:flex; align-items:flex-start; gap:18px; padding:20px 0; border-bottom:1px solid var(--cream-d); }
+.req-item:first-child { border-top:1px solid var(--cream-d); }
+.req-dot { width:8px; height:8px; border-radius:50%; background:var(--orange); flex-shrink:0; margin-top:6px; }
+.req-content h4 { font-size:15px; font-weight:600; color:var(--ink); margin-bottom:3px; }
+.req-content p { font-size:13px; color:var(--muted); line-height:1.6; }
+.comprobante-note { margin-top:32px; padding:24px 28px; background:var(--cream); border-left:3px solid var(--orange); font-size:14px; color:var(--ink); line-height:1.75; }
+.comprobante-note strong { color:var(--dark); }
+
+/* DOCS MODAL */
+.docs { background:var(--dark); padding:80px 48px; }
+.docs-inner { max-width:1200px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center; }
+.docs .section-eyebrow { color:var(--orange); }
+.docs .section-title { color:var(--white); }
+.docs .section-body { color:rgba(255,255,255,.5); }
+.docs-card { background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1); border-radius:4px; padding:36px; transition:all .25s; cursor:pointer; }
+.docs-card:hover { background:rgba(255,255,255,.1); border-color:rgba(224,90,32,.4); transform:translateY(-3px); }
+.docs-card-icon { font-size:36px; margin-bottom:16px; }
+.docs-card h4 { font-family:'Playfair Display',serif; font-size:20px; font-weight:700; color:var(--white); margin-bottom:10px; }
+.docs-card p { font-size:13px; color:rgba(255,255,255,.5); line-height:1.7; }
+.docs-card .btn-doc { display:inline-flex; align-items:center; gap:8px; margin-top:20px; background:var(--orange); color:var(--white); border:none; padding:10px 20px; border-radius:4px; font-size:12px; font-weight:600; cursor:pointer; transition:all .2s; letter-spacing:.4px; }
+.docs-card .btn-doc:hover { background:var(--orange-d); }
+
+/* FAQ — cream */
+.faq { background:var(--cream); padding:100px 48px; }
+.faq-inner { max-width:1200px; margin:0 auto; display:grid; grid-template-columns:5fr 7fr; gap:80px; align-items:start; }
+.faq-contact { padding:24px 28px; background:var(--white); border-left:3px solid var(--orange); font-size:13px; color:var(--muted); line-height:1.75; margin-top:32px; }
+.faq-contact strong { color:var(--ink); font-size:14px; display:block; margin-bottom:6px; }
+.faq-contact a { color:var(--orange); font-weight:600; word-break:break-all; }
+.faq-items { display:flex; flex-direction:column; }
+.faq-item { border-bottom:1px solid var(--cream-d); }
+.faq-item:first-child { border-top:1px solid var(--cream-d); }
+.faq-q { width:100%; background:none; border:none; padding:22px 0; text-align:left; cursor:pointer; display:flex; align-items:center; justify-content:space-between; gap:20px; font-family:'Inter',sans-serif; font-size:15px; font-weight:600; color:var(--ink); transition:color .2s; }
+.faq-q:hover, .faq-q.open { color:var(--orange); }
+.faq-plus { font-size:22px; color:var(--orange); flex-shrink:0; font-weight:300; transition:transform .3s; }
+.faq-q.open .faq-plus { transform:rotate(45deg); }
+.faq-a { max-height:0; overflow:hidden; transition:max-height .35s ease,padding .3s; font-size:14px; color:var(--muted); line-height:1.8; }
+.faq-a.open { max-height:400px; padding-bottom:22px; }
+
+/* CTA */
+.cta { background:var(--white); padding:100px 48px; display:flex; align-items:center; justify-content:center; text-align:center; }
+.cta-inner { max-width:600px; }
+.cta .section-title { margin-bottom:20px; }
+.cta .section-body { margin-bottom:48px; }
+.cta-actions { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
+.cta-action { display:inline-flex; align-items:center; gap:10px; background:var(--orange); color:var(--white); padding:16px 32px; border-radius:4px; font-size:13px; font-weight:600; letter-spacing:.8px; text-transform:uppercase; border:none; cursor:pointer; transition:all .2s; }
+.cta-action:hover { background:var(--orange-d); transform:translateY(-2px); }
+.cta-action-sec { background:transparent; color:var(--ink); border:1.5px solid var(--cream-d); padding:16px 32px; border-radius:4px; font-size:13px; font-weight:600; letter-spacing:.8px; text-transform:uppercase; cursor:pointer; transition:all .2s; display:inline-flex; align-items:center; gap:10px; }
+.cta-action-sec:hover { border-color:var(--ink); }
+
+/* FOOTER */
+footer { background:#111; padding:28px 48px; text-align:center; font-size:12px; color:rgba(255,255,255,.25); }
+
+/* REVEAL */
+.reveal { opacity:0; transform:translateY(28px); transition:opacity .65s ease,transform .65s ease; }
+.reveal.vis { opacity:1; transform:none; }
+
+/* ── MODAL ── */
+.modal-overlay { display:none; position:fixed; inset:0; z-index:500; background:rgba(26,24,20,.75); backdrop-filter:blur(4px); align-items:flex-start; justify-content:center; overflow-y:auto; padding:40px 20px; }
+.modal-overlay.open { display:flex; }
+.modal-box { background:var(--white); border-radius:6px; width:100%; max-width:820px; margin:auto; overflow:hidden; box-shadow:0 24px 80px rgba(0,0,0,.35); }
+.modal-header { background:var(--dark); padding:24px 32px; display:flex; align-items:center; justify-content:space-between; }
+.modal-header h3 { font-family:'Playfair Display',serif; font-size:22px; color:var(--white); font-weight:700; }
+.modal-close { background:none; border:none; color:rgba(255,255,255,.5); font-size:28px; cursor:pointer; line-height:1; transition:color .2s; }
+.modal-close:hover { color:var(--white); }
+.modal-body { padding:36px 40px; }
+.modal-footer-bar { background:var(--cream); padding:20px 40px; display:flex; justify-content:space-between; align-items:center; gap:12px; border-top:1px solid var(--cream-d); flex-wrap:wrap; }
+.modal-footer-note { font-size:12px; color:var(--muted); }
+.modal-footer-actions { display:flex; gap:10px; }
+.btn-cancel { background:none; border:1.5px solid var(--cream-d); padding:10px 20px; border-radius:4px; font-size:13px; font-weight:600; cursor:pointer; color:var(--muted); transition:all .2s; }
+.btn-cancel:hover { border-color:var(--ink); color:var(--ink); }
+.btn-download { background:var(--orange); color:var(--white); border:none; padding:10px 22px; border-radius:4px; font-size:13px; font-weight:600; cursor:pointer; transition:all .2s; display:flex; align-items:center; gap:7px; }
+.btn-download:hover { background:var(--orange-d); }
+
+/* FORM */
+.form-grid { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+.form-group { display:flex; flex-direction:column; gap:6px; }
+.form-group.full { grid-column:1/-1; }
+.form-label { font-size:11px; font-weight:600; letter-spacing:1px; text-transform:uppercase; color:var(--ink); }
+.form-input { padding:11px 14px; border:1.5px solid var(--cream-d); border-radius:4px; font-size:14px; font-family:'Inter',sans-serif; color:var(--ink); background:var(--cream); transition:border-color .2s; width:100%; }
+.form-input:focus { outline:none; border-color:var(--orange); background:var(--white); }
+.form-section-title { font-family:'Playfair Display',serif; font-size:17px; font-weight:700; color:var(--ink); margin:28px 0 16px; padding-bottom:10px; border-bottom:1.5px solid var(--cream-d); }
+.form-section-title:first-child { margin-top:0; }
+.form-info-box { background:var(--cream); border-left:3px solid var(--orange); padding:14px 18px; font-size:13px; color:var(--muted); line-height:1.7; margin-bottom:20px; border-radius:0 4px 4px 0; }
+.form-info-box strong { color:var(--ink); }
+
+/* SIG */
+.sig-area { margin-top:8px; padding:20px; background:var(--cream); border-radius:4px; }
+.sig-row { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+.sig-block-wrap { text-align:center; }
+.sig-block-wrap p { font-size:11px; font-weight:600; letter-spacing:1px; text-transform:uppercase; color:var(--muted); margin-bottom:10px; }
+canvas.sig-canvas { border:1.5px solid var(--cream-d); border-radius:4px; cursor:crosshair; display:block; width:100%; height:90px; background:var(--white); }
+canvas.sig-canvas:hover { border-color:var(--orange); }
+.sig-line-label { border-top:1.5px solid var(--dark); padding-top:8px; margin-top:8px; font-size:12px; font-weight:600; color:var(--ink); }
+.sig-sub { font-size:11px; color:var(--muted); margin-top:2px; }
+.sig-btns { display:flex; gap:8px; justify-content:center; margin-top:6px; }
+.btn-sig-clear { background:none; border:1px solid var(--cream-d); padding:4px 12px; border-radius:3px; font-size:11px; cursor:pointer; color:var(--muted); transition:all .2s; }
+.btn-sig-clear:hover { border-color:var(--orange); color:var(--orange); }
+
+/* checklist */
+.check-list { list-style:none; }
+.check-list li { display:flex; align-items:flex-start; gap:12px; font-size:14px; color:var(--muted); padding:10px 0; border-bottom:1px solid var(--cream-d); line-height:1.6; }
+.check-list li:last-child { border-bottom:none; }
+.check-list .ck { width:20px; height:20px; border-radius:50%; background:rgba(224,90,32,.12); border:1.5px solid var(--orange); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:10px; color:var(--orange); margin-top:1px; }
+
+/* MOBILE */
+@media(max-width:900px){
+  .nav-links{display:none;} .nav-inner{padding:0 24px;}
+  .hero{padding:120px 24px 80px;grid-template-columns:1fr;} .hero-right{display:none;}
+  .process-grid{grid-template-columns:1fr;} .process-card{padding:40px 28px;} .pc-number{font-size:80px;}
+  .plazos-inner,.comprobante-inner,.docs-inner,.faq-inner{grid-template-columns:1fr;gap:40px;}
+  .plazos,.comprobante,.docs,.faq,.cta{padding:70px 24px;}
+  .modal-body{padding:24px 20px;} .modal-footer-bar{padding:16px 20px;}
+  .form-grid{grid-template-columns:1fr;} .sig-row{grid-template-columns:1fr;}
+  .alert-banner{padding:14px 24px;}
+  .cta-actions{flex-direction:column;align-items:center;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-logo"><div class="nav-dot"></div>Justificación de Inasistencias</a>
+    <div class="nav-links">
+      <a href="#proceso">El proceso</a>
+      <a href="#plazos">Plazos</a>
+      <a href="#comprobante">Comprobante</a>
+      <a href="#faq">Preguntas</a>
+      <a href="#documentos" class="nav-cta">Generar aviso</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Lineamientos de Salud Integral</div>
+    <h1 class="hero-title">Faltar por salud<br>tiene un <em>proceso.</em><br>Aquí está.</h1>
+    <p class="hero-body">Si tuviste que ausentarte por motivos médicos o psicológicos, puedes justificar tus inasistencias siguiendo cuatro pasos claros. Te explicamos todo lo que necesitas saber.</p>
+    <button class="hero-action" onclick="document.getElementById('proceso').scrollIntoView({behavior:'smooth'})">
+      Ver los pasos
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </button>
+  </div>
+  <div class="hero-right">
+    <div class="hero-stats-block">
+      <div class="hero-stat">
+        <span class="hero-stat-num">3<span style="font-size:22px;font-weight:600"> días</span></span>
+        <div class="hero-stat-label">para notificar la inasistencia</div>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-num">10<span style="font-size:22px;font-weight:600"> días</span></span>
+        <div class="hero-stat-label">para entregar el comprobante médico</div>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-num">5<span style="font-size:22px;font-weight:600"> días</span></span>
+        <div class="hero-stat-label">hábiles de respuesta máxima</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ALERT BANNER -->
+<div class="alert-banner">
+  <div class="alert-inner">
+    <div class="alert-icon">📧</div>
+    <div class="alert-text">
+      Envía tu notificación a <strong><a href="mailto:salud.estudiantes@anahuac.mx">salud.estudiantes@anahuac.mx</a></strong> — con copia a tu director/coordinador de carrera y a los profesores de las materias afectadas.
+    </div>
+  </div>
+</div>
+
+<!-- PROCESO -->
+<section class="process" id="proceso">
+  <div class="process-inner">
+    <div class="reveal">
+      <span class="section-eyebrow">El proceso completo</span>
+      <h2 class="section-title">Cuatro pasos para <em>justificar</em> tu falta</h2>
+      <p class="section-body" style="max-width:540px;">Sigue este orden. Cada paso tiene un plazo específico — respetarlos es clave para que tu justificación proceda.</p>
+    </div>
+    <div class="process-grid">
+
+      <div class="process-card reveal">
+        <div class="pc-number">01</div>
+        <div class="pc-step">Paso 1</div>
+        <div class="pc-title">Notifica la inasistencia por correo</div>
+        <p class="pc-body">Envía un correo a Salud Integral con copia a tu coordinador/director de carrera y a los profesores de las materias afectadas.</p>
+        <ul class="pc-list">
+          <li>Nombre completo</li>
+          <li>ID / Matrícula</li>
+          <li>Carrera</li>
+          <li>Fecha(s) de la ausencia</li>
+          <li>Motivo de la ausencia</li>
+          <li>Materias afectadas</li>
+        </ul>
+        <div class="pc-tag">📧 salud.estudiantes@anahuac.mx</div>
+      </div>
+
+      <div class="process-card reveal">
+        <div class="pc-number">02</div>
+        <div class="pc-step">Paso 2</div>
+        <div class="pc-title">Envía tu comprobante médico o psicológico</div>
+        <p class="pc-body">El informe del especialista debe remitirse al mismo correo de Salud Integral. Debe incluir información específica para ser válido.</p>
+        <ul class="pc-list">
+          <li>Fecha de elaboración del documento</li>
+          <li>Nombre del médico o psicólogo tratante</li>
+          <li>Firma y cédula profesional del especialista</li>
+          <li>Diagnóstico</li>
+          <li>Recomendación de días de reposo (absoluto y/o relativo)</li>
+        </ul>
+        <div class="pc-tag">📎 Al mismo correo de Salud Integral</div>
+      </div>
+
+      <div class="process-card reveal">
+        <div class="pc-number">03</div>
+        <div class="pc-step">Paso 3</div>
+        <div class="pc-title">Respeta los plazos de aviso y comprobación</div>
+        <p class="pc-body">Hay dos ventanas de tiempo que debes cumplir. No hacerlo invalida la justificación, incluso si tienes un comprobante válido.</p>
+        <ul class="pc-list">
+          <li>Notificación: máximo 3 días naturales después de la falta</li>
+          <li>Comprobante: máximo 10 días naturales posteriores a la inasistencia</li>
+          <li>En periodo de finales: el comprobante debe entregarse de inmediato</li>
+        </ul>
+        <div class="pc-tag">⏰ Los plazos son inamovibles en finales</div>
+      </div>
+
+      <div class="process-card reveal">
+        <div class="pc-number">04</div>
+        <div class="pc-step">Paso 4</div>
+        <div class="pc-title">Espera la respuesta de Salud Integral</div>
+        <p class="pc-body">Cada caso es evaluado individualmente. La dirección de Salud Integral verifica la información y la autenticidad del documento.</p>
+        <ul class="pc-list">
+          <li>Tiempo de respuesta: máximo 5 días hábiles desde la recepción</li>
+          <li>Se valida la indicación médica y la autenticidad del comprobante</li>
+          <li>Comprobantes apócrifos se turnan a la Comisión Disciplinar</li>
+        </ul>
+        <div class="pc-tag">✅ Respuesta en máximo 5 días hábiles</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PLAZOS -->
+<section class="plazos" id="plazos">
+  <div class="plazos-inner">
+    <div class="reveal">
+      <span class="section-eyebrow">Plazos clave</span>
+      <h2 class="section-title">El tiempo <em>importa</em></h2>
+      <p class="section-body">Los plazos no son sugerencias. Perderlos significa que tu ausencia no podrá justificarse, aunque tengas el documento médico.</p>
+      <div style="margin-top:28px;padding:22px 26px;background:var(--cream-d);border-left:3px solid var(--orange);font-size:14px;color:var(--ink);line-height:1.75;">
+        <strong>Excepción importante:</strong> Durante el <strong>período de exámenes finales</strong>, el lapso de 10 días no aplica. El comprobante debe presentarse <strong>de forma inmediata</strong>.
+      </div>
+    </div>
+    <div class="plazo-cards reveal">
+      <div class="plazo-card">
+        <div class="plazo-num">3<span> días</span></div>
+        <div class="plazo-content">
+          <h4>Para notificar la inasistencia</h4>
+          <p>A partir del día de la falta, tienes tres días naturales para enviar el correo de notificación a Salud Integral.</p>
+          <span class="plazo-note">Días naturales · Desde la fecha de ausencia</span>
+        </div>
+      </div>
+      <div class="plazo-card">
+        <div class="plazo-num">10<span> días</span></div>
+        <div class="plazo-content">
+          <h4>Para entregar el comprobante</h4>
+          <p>El informe médico o psicológico debe llegar al correo de Salud Integral en un máximo de 10 días naturales después de la inasistencia.</p>
+          <span class="plazo-note">Días naturales · No aplica en periodo de finales</span>
+        </div>
+      </div>
+      <div class="plazo-card">
+        <div class="plazo-num">5<span> días</span></div>
+        <div class="plazo-content">
+          <h4>Respuesta de Salud Integral</h4>
+          <p>Una vez recibido el comprobante, la dirección tiene hasta cinco días hábiles para emitir su respuesta sobre la justificación.</p>
+          <span class="plazo-note">Días hábiles · Desde recepción del informe</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPROBANTE -->
+<section class="comprobante" id="comprobante">
+  <div class="comprobante-inner">
+    <div class="reveal">
+      <span class="section-eyebrow">El comprobante médico</span>
+      <h2 class="section-title">¿Qué debe incluir <em>tu documento</em>?</h2>
+      <p class="section-body">El informe del especialista debe cumplir con todos estos elementos para ser considerado válido. Un documento incompleto puede resultar en rechazo.</p>
+      <div class="comprobante-note" style="margin-top:28px;">
+        <strong>Importante:</strong> La autenticidad del documento será verificada. La presentación de comprobantes apócrifos tiene consecuencias disciplinarias y será turnada a la Comisión correspondiente.
+      </div>
+    </div>
+    <div class="reveal">
+      <ul class="req-list">
+        <li class="req-item"><div class="req-dot"></div><div class="req-content"><h4>Fecha de elaboración</h4><p>El documento debe tener la fecha en que fue emitido por el especialista.</p></div></li>
+        <li class="req-item"><div class="req-dot"></div><div class="req-content"><h4>Nombre del tratante</h4><p>Nombre completo del médico o psicólogo que expide el documento.</p></div></li>
+        <li class="req-item"><div class="req-dot"></div><div class="req-content"><h4>Firma del especialista</h4><p>Firma autógrafa del profesional de la salud que lo emite.</p></div></li>
+        <li class="req-item"><div class="req-dot"></div><div class="req-content"><h4>Cédula profesional</h4><p>Número de cédula profesional registrada ante la SEP del médico o psicólogo.</p></div></li>
+        <li class="req-item"><div class="req-dot"></div><div class="req-content"><h4>Diagnóstico</h4><p>Descripción del padecimiento o motivo de atención médica o psicológica.</p></div></li>
+        <li class="req-item"><div class="req-dot"></div><div class="req-content"><h4>Días de reposo recomendados</h4><p>Indicación explícita de los días de reposo absoluto y/o relativo prescritos.</p></div></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- DOCS -->
+<section class="docs" id="documentos">
+  <div class="docs-inner">
+    <div class="reveal">
+      <span class="section-eyebrow">Genera tu aviso aquí</span>
+      <h2 class="section-title">Prepara tu <em>correo</em> de notificación</h2>
+      <p class="section-body">Llena el formulario y genera el texto de tu correo de notificación listo para enviar, con todos los campos requeridos.</p>
+    </div>
+    <div class="reveal">
+      <div class="docs-card" onclick="openModal('modal-aviso')">
+        <div class="docs-card-icon">📧</div>
+        <h4>Correo de notificación de inasistencia</h4>
+        <p>Genera el texto completo de tu correo de notificación con todos los datos requeridos: nombre, ID, carrera, fechas, motivo y materias afectadas.</p>
+        <button class="btn-doc">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          Llenar y copiar texto
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq" id="faq">
+  <div class="faq-inner">
+    <div class="faq-sidebar reveal">
+      <span class="section-eyebrow">Preguntas frecuentes</span>
+      <h2 class="section-title">Lo que más nos preguntan</h2>
+      <p class="section-body">Para dudas adicionales, contacta directamente a Salud Integral.</p>
+      <div class="faq-contact">
+        <strong>Dirección de Salud Integral</strong>
+        <a href="mailto:salud.estudiantes@anahuac.mx">salud.estudiantes@anahuac.mx</a><br>
+        Copia a tu director/coordinador de carrera<br>
+        y a los profesores afectados
+      </div>
+    </div>
+    <div class="faq-items reveal">
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">¿Puedo enviar el correo después del tercer día?<span class="faq-plus">+</span></button><div class="faq-a">No se recomienda. La notificación debe hacerse a más tardar tres días naturales posteriores a la falta. Pasado ese plazo, la justificación puede no proceder aunque cuentes con comprobante médico válido.</div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">¿Aplica el plazo de 10 días en finales?<span class="faq-plus">+</span></button><div class="faq-a">No. En período de exámenes finales el lapso de 10 días naturales no aplica. El comprobante médico debe enviarse de forma inmediata al ausentarse.</div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">¿Qué pasa si mi comprobante no tiene todos los datos?<span class="faq-plus">+</span></button><div class="faq-a">Un comprobante incompleto puede resultar en el rechazo de la justificación. Verifica con tu médico que el documento incluya todos los elementos requeridos antes de enviarlo.</div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">¿Puedo justificar faltas por atención psicológica?<span class="faq-plus">+</span></button><div class="faq-a">Sí. El protocolo aplica tanto para comprobantes médicos como psicológicos, siempre que el documento cumpla con todos los requisitos: nombre del tratante, firma, cédula profesional, diagnóstico y días de reposo recomendados.</div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">¿A quién más debo enviar copia del correo?<span class="faq-plus">+</span></button><div class="faq-a">Debes incluir en copia (CC) a tu director o coordinador de carrera, a las coordinaciones de humanidades, métodos cuantitativos, dirección académica de formación integral, y/o a los profesores de las materias afectadas, según corresponda.</div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">¿Cuándo sabrá si mi justificación fue aceptada?<span class="faq-plus">+</span></button><div class="faq-a">El tiempo máximo de respuesta es de cinco días hábiles a partir de la recepción del informe del especialista. Recibirás la respuesta por el mismo medio de comunicación.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="cta-inner reveal">
+    <h2 class="section-title">¿Necesitas justificar una <em>inasistencia</em>?</h2>
+    <p class="section-body">Genera el texto de tu correo de notificación aquí mismo, con todos los datos requeridos listos para enviar.</p>
+    <div class="cta-actions">
+      <button class="cta-action" onclick="openModal('modal-aviso')">
+        Generar correo de notificación
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<footer>Protocolo de Justificación por Motivos de Salud · Para información oficial consulta directamente a la Dirección de Salud Integral.</footer>
+
+<!-- ═══════════════════════════════════════════════
+     MODAL: AVISO DE INASISTENCIA
+═══════════════════════════════════════════════ -->
+<div class="modal-overlay" id="modal-aviso">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3>📧 Correo de Notificación de Inasistencia</h3>
+      <button class="modal-close" onclick="closeModal('modal-aviso')">×</button>
+    </div>
+    <div class="modal-body">
+
+      <div class="form-info-box">
+        Llena los datos y se generará automáticamente el texto del correo con toda la información requerida, listo para copiar y enviar a <strong>salud.estudiantes@anahuac.mx</strong>.
+      </div>
+
+      <!-- Datos del alumno -->
+      <div class="form-section-title">Datos del estudiante</div>
+      <div class="form-grid">
+        <div class="form-group"><label class="form-label">Nombre completo</label><input class="form-input" id="a-nombre" type="text" placeholder="Nombre(s) Apellido Paterno Apellido Materno" oninput="syncAviso()"></div>
+        <div class="form-group"><label class="form-label">ID / Matrícula</label><input class="form-input" id="a-id" type="text" placeholder="00249XXX" oninput="syncAviso()"></div>
+        <div class="form-group"><label class="form-label">Carrera / Programa</label><input class="form-input" id="a-carrera" type="text" placeholder="Ej. Tecnologías de Información y Negocios Digitales" oninput="syncAviso()"></div>
+        <div class="form-group"><label class="form-label">Semestre</label><select class="form-input" id="a-semestre" onchange="syncAviso()"><option value="">Seleccionar…</option><option>1° Semestre</option><option>2° Semestre</option><option>3° Semestre</option><option>4° Semestre</option><option>5° Semestre</option><option>6° Semestre</option><option>7° Semestre</option><option>8° Semestre</option><option>9° Semestre</option><option>10° Semestre</option></select></div>
+      </div>
+
+      <!-- Inasistencia -->
+      <div class="form-section-title">Detalles de la inasistencia</div>
+      <div class="form-grid">
+        <div class="form-group"><label class="form-label">Fecha(s) de ausencia — inicio</label><input class="form-input" id="a-inicio" type="date" oninput="syncAviso()"></div>
+        <div class="form-group"><label class="form-label">Fecha(s) de ausencia — fin</label><input class="form-input" id="a-fin" type="date" oninput="syncAviso()"></div>
+        <div class="form-group full"><label class="form-label">Motivo de la ausencia</label><input class="form-input" id="a-motivo" type="text" placeholder="Ej. Padecimiento de salud bajo indicación médica de reposo" oninput="syncAviso()"></div>
+        <div class="form-group full"><label class="form-label">Materias afectadas</label><input class="form-input" id="a-materias" type="text" placeholder="Ej. Cálculo Diferencial, Bases de Datos, Programación Orientada a Objetos" oninput="syncAviso()"></div>
+        <div class="form-group full"><label class="form-label">Tipo de comprobante que se enviará</label><select class="form-input" id="a-tipo" onchange="syncAviso()"><option value="">Seleccionar…</option><option>Comprobante médico</option><option>Comprobante psicológico</option><option>Comprobante médico y psicológico</option></select></div>
+      </div>
+
+      <!-- PREVIEW CORREO -->
+      <div class="form-section-title">Vista previa del correo</div>
+      <div id="aviso-preview" style="background:var(--cream);border:1.5px solid var(--cream-d);border-radius:4px;padding:24px 28px;font-size:13.5px;line-height:1.85;color:var(--ink);white-space:pre-wrap;font-family:'Inter',sans-serif;"></div>
+
+      <!-- COPY -->
+      <div style="margin-top:16px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+        <button class="btn-download" onclick="copyAviso()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          Copiar texto del correo
+        </button>
+        <span id="copy-confirm" style="font-size:12px;color:var(--orange);font-weight:600;display:none;">✓ Copiado al portapapeles</span>
+      </div>
+
+      <!-- Checklist -->
+      <div class="form-section-title">Lista de verificación antes de enviar</div>
+      <ul class="check-list">
+        <li><div class="ck">✓</div>Correo dirigido a salud.estudiantes@anahuac.mx</li>
+        <li><div class="ck">✓</div>Copia (CC) a tu director/coordinador de carrera</li>
+        <li><div class="ck">✓</div>Copia (CC) a los profesores de las materias afectadas</li>
+        <li><div class="ck">✓</div>Notificación enviada antes del 3er día natural posterior a la falta</li>
+        <li><div class="ck">✓</div>El comprobante médico/psicológico se enviará en un segundo correo (máx. 10 días)</li>
+      </ul>
+
+    </div>
+    <div class="modal-footer-bar">
+      <span class="modal-footer-note">Envía el comprobante médico en un correo separado</span>
+      <div class="modal-footer-actions">
+        <button class="btn-cancel" onclick="closeModal('modal-aviso')">Cerrar</button>
+        <button class="btn-download" onclick="copyAviso()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          Copiar correo
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// MODAL
+function openModal(id){ document.getElementById(id).classList.add('open'); document.body.style.overflow='hidden'; syncAviso(); }
+function closeModal(id){ document.getElementById(id).classList.remove('open'); document.body.style.overflow=''; }
+document.querySelectorAll('.modal-overlay').forEach(m=>m.addEventListener('click',e=>{ if(e.target===m) closeModal(m.id); }));
+
+// UTILS
+const v = id => document.getElementById(id)?.value || '';
+const fmtDate = s => { if(!s) return '___'; const d=new Date(s+'T12:00:00'); return d.toLocaleDateString('es-MX',{day:'numeric',month:'long',year:'numeric'}); };
+
+// SYNC AVISO
+function syncAviso(){
+  const nombre   = v('a-nombre')  || '[Nombre completo]';
+  const id       = v('a-id')      || '[ID/Matrícula]';
+  const carrera  = v('a-carrera') || '[Carrera]';
+  const semestre = v('a-semestre')|| '[Semestre]';
+  const inicio   = fmtDate(v('a-inicio'));
+  const fin      = v('a-fin') ? fmtDate(v('a-fin')) : null;
+  const fechas   = fin && fin !== inicio ? `del ${inicio} al ${fin}` : `el ${inicio}`;
+  const motivo   = v('a-motivo')  || '[Motivo de la ausencia]';
+  const materias = v('a-materias')|| '[Materias afectadas]';
+  const tipo     = v('a-tipo')    || '[tipo de comprobante]';
+  const hoy      = new Date().toLocaleDateString('es-MX',{day:'numeric',month:'long',year:'numeric'});
+
+  const texto = `Para: salud.estudiantes@anahuac.mx
+CC: [Director/Coordinador de carrera] · [Profesores de materias afectadas]
+Asunto: Notificación de inasistencia por motivos de salud — ${nombre}
+
+Estimado/a equipo de Salud Integral:
+
+Por medio del presente correo notifico mi inasistencia a clases por motivos de salud, de acuerdo con los lineamientos establecidos.
+
+DATOS DEL ESTUDIANTE
+Nombre completo: ${nombre}
+ID / Matrícula: ${id}
+Carrera / Programa: ${carrera}
+Semestre: ${semestre}
+
+DETALLES DE LA INASISTENCIA
+Fecha(s) de ausencia: ${fechas}
+Motivo: ${motivo}
+Materias afectadas: ${materias}
+
+Haré llegar el ${tipo} expedido por el especialista de la salud correspondiente, el cual incluirá la información requerida (fecha de elaboración, nombre y cédula del tratante, firma, diagnóstico y días de reposo recomendados), en un plazo no mayor a 10 días naturales posteriores a la inasistencia.
+
+Quedo a sus órdenes para cualquier información adicional.
+
+Atentamente,
+${nombre}
+${carrera} · ${semestre}
+
+Fecha de notificación: ${hoy}`;
+
+  document.getElementById('aviso-preview').textContent = texto;
+}
+
+// COPY
+function copyAviso(){
+  const text = document.getElementById('aviso-preview').textContent;
+  navigator.clipboard.writeText(text).then(()=>{
+    const el = document.getElementById('copy-confirm');
+    el.style.display='inline';
+    setTimeout(()=>el.style.display='none', 2500);
+  });
+}
+
+// FAQ
+function toggleFaq(btn){
+  const a=btn.nextElementSibling, open=a.classList.contains('open');
+  document.querySelectorAll('.faq-a').forEach(x=>x.classList.remove('open'));
+  document.querySelectorAll('.faq-q').forEach(x=>x.classList.remove('open'));
+  if(!open){ a.classList.add('open'); btn.classList.add('open'); }
+}
+
+// REVEAL
+const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis');}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// SMOOTH NAV
+document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'});}}));
+
+syncAviso();
+</script>
+</body>
+</html>
